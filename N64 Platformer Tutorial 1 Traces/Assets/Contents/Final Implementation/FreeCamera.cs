@@ -136,10 +136,11 @@ public class FreeCamera : MonoBehaviour
         /* Movement */
         float rawMoveSpeed = MoveFactor;
 
+        /* Faster Movement Check */
         if (Input.GetKey(KeyCode.LeftShift))
             rawMoveSpeed *= 5.0F;
 
-        Vector3 _move = (fixedStartRotation * new Vector3(internalInputs.Move_X, 0F, internalInputs.Move_Y));
+        Vector3 _move = (Quaternion.Euler(internalEulers) * new Vector3(internalInputs.Move_X, 0F, internalInputs.Move_Y));
         internalPosition += rawMoveSpeed * _move * fdt;
 
         /* Assigning */
