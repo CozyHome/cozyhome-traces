@@ -10,7 +10,7 @@ namespace com.chs.final
         [Header("Simulation Settings")]
         [SerializeField] bool SimulateOnPlay = true;
 
-        CapsuleBounce[] CapsuleBouncers;
+        CharacterBouncer[] CapsuleBouncers;
         int BouncerCount;
         bool _simulate = false;
 
@@ -20,8 +20,28 @@ namespace com.chs.final
 
         void Start()
         {
-            CapsuleBouncers = FindObjectsOfType<CapsuleBounce>();
-            BouncerCount = CapsuleBouncers.Length;
+            //very bad code
+
+            //find all references:
+            CharacterBouncer[] tmp = FindObjectsOfType<CharacterBouncer>();
+            Stack<CharacterBouncer> activeBouncers = new Stack<CharacterBouncer>();
+
+            //filter out inactive ones:
+            for (int i = 0; i < tmp.Length; i++)
+                if (tmp[i].isActiveAndEnabled)
+                    activeBouncers.Push(tmp[i]);
+
+            BouncerCount = activeBouncers.Count;
+
+            CapsuleBouncers = new CharacterBouncer[BouncerCount];
+            for (int i = 0; i < CapsuleBouncers.Length; i++)
+                CapsuleBouncers[i] = activeBouncers.Pop();
+
+            tmp = null;
+            activeBouncers.Clear();
+
+            // do not emulate this trashy ass code
+
             CacheBouncerPositions();
 
             if (SimulateOnPlay)

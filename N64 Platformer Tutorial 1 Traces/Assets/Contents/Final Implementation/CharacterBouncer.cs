@@ -5,10 +5,8 @@ namespace com.chs.final
     /// <summary>
     /// 1. A simple collision response implementation in which any recorded hit will invert the object's clip velocity. <br/> 
     /// 2. This is not a thoroughly thought out script, so I suggest you implement your own when you have the knowledge/ability to. <br/>
-    /// <br/> 3. CapsuleBounce script is tied to the CharacterCapsuleCollider, so why not try and implement a Bounce response that treats each CharacterCollider the same?
     /// </summary>
-    [RequireComponent(typeof(CharacterCapsuleCollider))]
-    public class CapsuleBounce : MonoBehaviour
+    public class CharacterBouncer : MonoBehaviour
     {
         /// <summary>
         /// Our write buffer used for this bouncer's trace hits
@@ -27,12 +25,6 @@ namespace com.chs.final
 
         [Header("Bounce Simulation Settings")]
         /// <summary>
-        /// The CharacterCapsuleCollider used as a front for physics querying without cluttering collision response.
-        /// scripts.
-        /// </summary>
-        [SerializeField] CharacterCapsuleCollider CharacterCol;
-
-        /// <summary>
         /// The layermask we'll apply to our physics queries to filter out entire layers of colliders that we do not want to hit.
         /// </summary>
         [SerializeField] LayerMask validLayers;
@@ -41,6 +33,12 @@ namespace com.chs.final
         /// The gravitational factor we'll be able to modify during runtime to affect our gravity calculations
         /// </summary>
         [SerializeField] float gScale = 1.0F;
+
+        /// <summary>
+        /// The CharacterCapsuleCollider used as a front for physics querying without cluttering collision response.
+        /// scripts.
+        /// </summary>
+        [System.NonSerialized] CharacterCollider CharacterCol;
 
         /// <summary>
         /// The initial position that is handled by our collision response simulation
@@ -66,6 +64,8 @@ namespace com.chs.final
         /// </summary>
         public void Initialize()
         {
+            CharacterCol = GetComponent<CharacterCollider>();
+
             initialPosition = internalPosition = transform.position;
             internalVelocity = initialVelocity;
         }
@@ -177,7 +177,7 @@ namespace com.chs.final
         /// <param name="collider"></param>
         void TryPushBouncer(Vector3 velocity, Vector3 normal, Collider collider)
         {
-            CapsuleBounce other = collider.GetComponent<CapsuleBounce>();
+            CharacterBouncer other = collider.GetComponent<CharacterBouncer>();
 
             if (other != null) // if hit contains CapsuleBounce, it is a Bouncer
             {

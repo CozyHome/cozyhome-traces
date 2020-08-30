@@ -43,6 +43,9 @@ namespace com.chs.final
             position += orientation * Capsule_C.center;
             position -= direction * TRACEBIAS;
 
+            // i havent worked out solving capsule scaling, so sorry about that :(
+            // some day i'll get around to it
+
             Vector3 capsuleSegmentLength = (orientation * Vector3.up) * (Capsule_C.height * 0.5F - Capsule_C.radius);
 
             int tracedCollidersCount = Physics.CapsuleCastNonAlloc
@@ -56,7 +59,6 @@ namespace com.chs.final
             interactionType);
 
             return tracedCollidersCount;
-
         }
 
         /// <summary>
