@@ -5,4 +5,6 @@ The repository for the Cozy Home N64 (Ep. #1) Traces tutorial. In here you'll fi
 
 2. I've given you a directory to write your implementations, it's found in the "Your Implementation" folder.
 
-3. Happy coding :)
+3. The final implementation contains some goodies I never got to film. Feel free to check them out!
+
+4. Happy coding :)
