@@ -20,7 +20,7 @@ namespace com.chs.final
 
             float biggestScale = 0F;
             for (int i = 0; i < 3; i++)
-                if (biggestScale > transform.localScale[i])
+                if (biggestScale < transform.localScale[i])
                     biggestScale = transform.localScale[i];
 
             int tracedCollidersCount = Physics.SphereCastNonAlloc
